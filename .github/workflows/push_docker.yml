@@ -15,7 +15,7 @@ jobs:
    
     steps:
 
-    - name: Check out code
+    - name: Check out pipe
       uses: actions/checkout@v2
 
     - name: Download twistcli from the Prisma Cloud Compute Console
@@ -37,7 +37,15 @@ jobs:
     - name: Sandbox the image
       env:
         IMAGE_TAG: nodejs_demo_image
-      run: sudo -s ./twistcli sandbox --address ${{ secrets.PRISMA_COMPUTE_URL }} -u ${{ secrets.PRISMA_ACCESS_KEY }} -p ${{ secrets.PRISMA_SECRET_KEY }} --analysis-duration 2m ${{ env.IMAGE_TAG }}
+      run: sudo -s ./twistcli sandbox --address ${{ secrets.PRISMA_COMPUTE_URL }} -u ${{ secrets.PRISMA_ACCESS_KEY }}-p ${{ secrets.PRISMA_SECRET_KEY }} --analysis-duration 2m ${{ env.IMAGE_TAG }}
 
+    - name: Run Prisma Cloud
+      id: Prisma Cloud
+      uses: bridgecrewio/checkov-action@master
+      env:
+        PRISMA_API_URL: https://api4.prismacloud.io
+      with:
+        api-key: ${{ secrets.BC_API_KEY }}
+        use_enforcement_rules: true
  
 
