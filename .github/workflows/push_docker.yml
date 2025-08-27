@@ -40,7 +40,7 @@ jobs:
       run: sudo -s ./twistcli sandbox --address ${{ secrets.PRISMA_COMPUTE_URL }} -u ${{ secrets.PRISMA_ACCESS_KEY }}-p ${{ secrets.PRISMA_SECRET_KEY }} --analysis-duration 2m ${{ env.IMAGE_TAG }}
 
     - name: Run Prisma Cloud
-      id: Prisma Cloud
+      id: prisma
       uses: bridgecrewio/checkov-action@master
       env:
         PRISMA_API_URL: https://api4.prismacloud.io
