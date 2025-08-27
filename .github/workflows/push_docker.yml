@@ -38,7 +38,7 @@ jobs:
     - name: Scan the image
       env:
         IMAGE_TAG: nodejs_demo_image
-      run: OUT="${GITHUB_WORKSPACE}/results.json" /twistcli images scan --address ${{ secrets.PRISMA_COMPUTE_URL }} --user ${{ secrets.PRISMA_ACCESS_KEY }} --password ${{ secrets.PRISMA_SECRET_KEY }} --details $IMAGE_TAG --output-file results.json --details $IMAGE_TAG --output-file "$OUT"
+      run: OUT="${GITHUB_WORKSPACE}/results.json" ./twistcli images scan --address ${{ secrets.PRISMA_COMPUTE_URL }} --user ${{ secrets.PRISMA_ACCESS_KEY }} --password ${{ secrets.PRISMA_SECRET_KEY }} --details $IMAGE_TAG --output-file results.json --details $IMAGE_TAG --output-file "$OUT"
           ls -l "$OUT"
           
     - name: Sandbox the image
