@@ -23,6 +23,12 @@ jobs:
         curl --user ${{ secrets.PRISMA_ACCESS_KEY }}:${{ secrets.PRISMA_SECRET_KEY }} --output ./twistcli ${{ secrets.PRISMA_COMPUTE_URL }}/api/v1/util/twistcli 
         chmod a+x ./twistcli 
 
+    - name: Upload scan results
+      uses: actions/upload-artifact@v4
+      with:
+        name: twistcli-results
+        path: results.json
+
     - name: Build image
       env:
         IMAGE_TAG: nodejs_demo_image
