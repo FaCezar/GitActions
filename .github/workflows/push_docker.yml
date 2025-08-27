@@ -32,14 +32,26 @@ jobs:
     - name: Scan the image
       env:
         IMAGE_TAG: nodejs_demo_image
-      run: OUT="${GITHUB_WORKSPACE}/results.json" ./twistcli images scan --address ${{ secrets.PRISMA_COMPUTE_URL }} --user ${{ secrets.PRISMA_ACCESS_KEY }} --password ${{ secrets.PRISMA_SECRET_KEY }} --details $IMAGE_TAG --output-file "$OUT"
-          ls -l "$OUT"
+      run: | 
+        OUT="${GITHUB_WORKSPACE}/results.json"
+        ./twistcli images scan \
+          --address "${{ secrets.PRISMA_COMPUTE_URL }}" \
+          -u "${{ secrets.PRISMA_ACCESS_KEY }}" \
+          -p "${{ secrets.PRISMA_SECRET_KEY }}" \
+          --output-file "$OUT" \
+          --details \
+          "${IMAGE_TAG}"
+
+        echo "PWD: $(pwd)"
+        echo "Workspace: $GITHUB_WORKSPACE"
+        ls -la "$GITHUB_WORKSPACE"
+        test -f "$OUT" || (echo "results.json not found at $OUT" && exit 1)
 
     - name: Upload scan results
       uses: actions/upload-artifact@v4
       with:
         name: twistcli-results
-        path: results.json          
+        path: ${{ github.workspace }}/results.json          
         
     - name: Sandbox the image
       env:
